@@ -1,11 +1,6 @@
 //! IPC stuff for starting to split things into a client and server model.
 
 use serde::{Deserialize, Serialize};
-use std::collections::HashSet;
-
-// Hardcoded location for the LocalSocket which is used for client-server comms
-//pub const SOCKET_PATH: &str = "/var/run/mosaic/ipc";
-pub const SOCKET_PATH: &str = "/tmp/mosaic/ipc";
 
 type SessionID = u64;
 

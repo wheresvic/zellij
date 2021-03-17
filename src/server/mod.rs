@@ -1,26 +1,26 @@
-use std::{fmt, io::{self, prelude::*, BufReader}};
 use std::fs::File;
+use std::io::{self, prelude::*};
 use std::path::PathBuf;
 
 use crate::common::ipc;
 
+use crate::utils::consts::ZELLIJ_IPC_PIPE;
 use daemonize::Daemonize;
 use interprocess::local_socket::{LocalSocketListener, LocalSocketStream};
-use ipc::Session;
 
 pub fn start_server() {
-    let listener = match LocalSocketListener::bind(ipc::SOCKET_PATH) {
+    let listener = match LocalSocketListener::bind(ZELLIJ_IPC_PIPE) {
         Ok(sock) => sock,
         Err(err) => match err.kind() {
             io::ErrorKind::NotFound => {
-                let mut dir_path = PathBuf::from(ipc::SOCKET_PATH);
+                let mut dir_path = PathBuf::from(ZELLIJ_IPC_PIPE);
                 dir_path.pop();
                 std::fs::create_dir_all(dir_path).unwrap();
-                LocalSocketListener::bind(ipc::SOCKET_PATH).unwrap()
+                LocalSocketListener::bind(ZELLIJ_IPC_PIPE).unwrap()
             }
             io::ErrorKind::AddrInUse => {
-                std::fs::remove_file(ipc::SOCKET_PATH).unwrap();
-                LocalSocketListener::bind(ipc::SOCKET_PATH).unwrap()
+                std::fs::remove_file(ZELLIJ_IPC_PIPE).unwrap();
+                LocalSocketListener::bind(ZELLIJ_IPC_PIPE).unwrap()
             }
             _ => panic!("{:?}", err),
         },
@@ -52,8 +52,8 @@ fn event_loop(listener: LocalSocketListener) {
         let mut file = File::create("/tmp/server_log.txt").unwrap();
         file.write_all(b"In event loop").unwrap();
         let incoming_msg: ipc::ClientToServerMsg = serde_json::from_reader(&mut conn).unwrap();
-        file.write_all(format!("Received message: {:?}", incoming_msg).as_bytes()).unwrap();
-        
+        file.write_all(format!("Received message: {:?}", incoming_msg).as_bytes())
+            .unwrap();
         match incoming_msg {
             ipc::ClientToServerMsg::CreateSession => {
                 let new_session = ipc::Session {

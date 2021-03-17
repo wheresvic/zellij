@@ -248,6 +248,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "boxfnonce"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5988cb1d626264ac94100be357308f29ff7cbdd3b36bda27f450a4ee3f713426"
+
+[[package]]
 name = "bumpalo"
 version = "3.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -458,6 +464,16 @@ checksum = "e8f45d9ad417bcef4817d614a501ab55cdd96a6fdb24f49aab89a54acfd66b19"
 dependencies = [
  "quote",
  "syn",
+]
+
+[[package]]
+name = "daemonize"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "70c24513e34f53b640819f0ac9f705b673fcf4006d7aab8778bee72ebfc89815"
+dependencies = [
+ "boxfnonce",
+ "libc",
 ]
 
 [[package]]
@@ -2254,6 +2270,7 @@ dependencies = [
  "async-std",
  "backtrace",
  "bincode",
+ "daemonize",
  "directories-next",
  "futures",
  "insta",

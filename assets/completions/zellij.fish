@@ -4,5 +4,7 @@ complete -c zellij -n "__fish_use_subcommand" -l max-panes -d 'Maximum panes on 
 complete -c zellij -n "__fish_use_subcommand" -s l -l layout -d 'Path to a layout yaml file'
 complete -c zellij -n "__fish_use_subcommand" -s m -l move-focus -d 'Send "move focused pane" to active zellij session'
 complete -c zellij -n "__fish_use_subcommand" -s d -l debug
+complete -c zellij -n "__fish_use_subcommand" -l server -d 'Run in server mode'
+complete -c zellij -n "__fish_use_subcommand" -l client -d 'Run in client mode'
 complete -c zellij -n "__fish_use_subcommand" -s h -l help -d 'Prints help information'
 complete -c zellij -n "__fish_use_subcommand" -s V -l version -d 'Prints version information'

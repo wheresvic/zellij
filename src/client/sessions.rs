@@ -1,9 +1,8 @@
+use crate::utils::consts::ZELLIJ_IPC_PIPE;
 use std::env::current_exe;
 use std::io;
 use std::io::Read;
 use std::process::{Command, Stdio};
-
-use crate::common::ipc;
 
 use interprocess::local_socket::LocalSocketStream;
 
@@ -12,7 +11,7 @@ use interprocess::local_socket::LocalSocketStream;
 //is open (so we can revert to using the persistent local socket)
 pub fn connect_to_server() -> io::Result<LocalSocketStream> {
     println!("Hello client");
-    if let Ok(conn) = LocalSocketStream::connect(ipc::SOCKET_PATH) {
+    if let Ok(conn) = LocalSocketStream::connect(ZELLIJ_IPC_PIPE) {
         // Server already started
         println!("Server already running!");
         Ok(conn)
@@ -42,11 +41,12 @@ fn spawn_server() -> io::Result<LocalSocketStream> {
                 println!("Server responded with: {}", s);
                 if s.contains("server running") {
                     println!("Server now running!");
+                    server_proc.wait().unwrap();
                     break;
                 }
             }
         }
     }
 
-    LocalSocketStream::connect(ipc::SOCKET_PATH)
+    LocalSocketStream::connect(ZELLIJ_IPC_PIPE)
 }

@@ -26,6 +26,8 @@ _zellij() {
 '--move-focus[Send "move focused pane" to active zellij session]' \
 '-d[]' \
 '--debug[]' \
+'--server[Run in server mode]' \
+'--client[Run in client mode]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
